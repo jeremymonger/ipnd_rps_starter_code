@@ -31,6 +31,15 @@ class HumanPlayer(Player):
             choice = input("Rock, Paper, or Scissors?")
             if choice.lower() in ['rock', 'paper', 'scissors']:
                 return choice.lower()
+"""The ReflectPlayer subclass copies its opponents last move"""
+class ReflectPlayer(Player):
+    def __init__(self):
+        self.choice = random.choice(moves)
+    def move(self):
+        return self.choice
+    def learn(self, my_move, their_move):
+        self.choice = their_move
+        
 
 def beats(one, two):
     return ((one == 'rock' and two == 'scissors') or
@@ -71,5 +80,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(HumanPlayer(), Player())
+    game = Game(ReflectPlayer(), Player())
     game.play_game()
