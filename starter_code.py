@@ -7,6 +7,13 @@ import random
 
 moves = ['rock', 'paper', 'scissors']
 
+
+def beats(one, two):
+    return ((one == 'rock' and two == 'scissors') or
+            (one == 'scissors' and two == 'paper') or
+            (one == 'paper' and two == 'rock'))
+
+
 """The Player class is the parent class for all of the Players
 in this game"""
 
@@ -18,13 +25,18 @@ class Player:
     def learn(self, my_move, their_move):
         pass
 
+
 """The RandomPlayer subclass chose moves at random"""
+
 
 class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
 
+
 """The HumanPlayer subclass allows users to chose their own moves"""
+
+
 class HumanPlayer(Player):
     def move(self):
         while True:
@@ -32,33 +44,41 @@ class HumanPlayer(Player):
             print("")
             if choice.lower() in moves:
                 return choice.lower()
+
+
 """The ReflectPlayer subclass copies its opponents last move"""
+
+
 class ReflectPlayer(Player):
     def __init__(self):
         self.choice = random.choice(moves)
+
     def move(self):
         return self.choice
+
     def learn(self, my_move, their_move):
         self.choice = their_move
 
+
 """The CyclePlayer subclass cycles through the changes"""
+
+
 class CyclePlayer(Player):
     def __init__(self):
         self.choice = 0
+
     def move(self):
         return moves[self.choice]
+
     def learn(self, my_move, their_move):
         if self.choice == 2:
             self.choice = 0
         else:
             self.choice += 1
-    
-        
 
-def beats(one, two):
-    return ((one == 'rock' and two == 'scissors') or
-            (one == 'scissors' and two == 'paper') or
-            (one == 'paper' and two == 'rock'))
+
+"""The Game class contains the code for both playing a round,
+or a game of rounds"""
 
 
 class Game:
@@ -99,13 +119,17 @@ class Game:
             print("You Lose!\n\nGame Over!\n")
             return False
 
+
+"""The Tournament class plays several games against several players"""
+
+
 class Tournament():
-    def __init__(self, opponents): 
+    def __init__(self, opponents):
         self.opponents = opponents
         self.human = HumanPlayer()
         self.rank = 0
         self.ranks = len(self.opponents)
-        
+
     """Cycles through opponents until user loses or beats them. """
     def run_tournament(self):
         while self.rank < self.ranks:
@@ -116,13 +140,14 @@ class Tournament():
             self.status = self.game.play_game()
             if self.status:
                 self.rank += 1
-                if self.rank == self.ranks :
+                if self.rank == self.ranks:
                     print("You Win it All!\n")
             else:
                 self.rank = self.ranks
         print("That's all folks!")
-    
+
+
 if __name__ == '__main__':
-    tournament = Tournament([Player(),CyclePlayer(),ReflectPlayer(),RandomPlayer()])
+    tournament = Tournament([Player(), CyclePlayer(), ReflectPlayer(),
+                             RandomPlayer()])
     tournament.run_tournament()
-            
