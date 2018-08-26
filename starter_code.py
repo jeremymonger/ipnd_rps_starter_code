@@ -39,6 +39,19 @@ class ReflectPlayer(Player):
         return self.choice
     def learn(self, my_move, their_move):
         self.choice = their_move
+
+"""The CyclePlayer subclass cycles through the changes"""
+class CyclePlayer(Player):
+    def __init__(self):
+        self.choice = 0
+    def move(self):
+        return moves[self.choice]
+    def learn(self, my_move, their_move):
+        if self.choice == 2:
+            self.choice = 0
+        else:
+            self.choice += 1
+    
         
 
 def beats(one, two):
@@ -73,12 +86,12 @@ class Game:
 
     def play_game(self):
         print("Game start!")
-        for round in range(3):
+        for round in range(5):
             print(f"Round {round}:")
             self.play_round()
         print("Game over!")
 
 
 if __name__ == '__main__':
-    game = Game(ReflectPlayer(), Player())
+    game = Game(HumanPlayer(), CyclePlayer())
     game.play_game()
