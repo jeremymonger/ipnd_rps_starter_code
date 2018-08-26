@@ -28,8 +28,9 @@ class RandomPlayer(Player):
 class HumanPlayer(Player):
     def move(self):
         while True:
-            choice = input("Rock, Paper, or Scissors?")
-            if choice.lower() in ['rock', 'paper', 'scissors']:
+            choice = input("rock, paper, or scissors? ")
+            print("")
+            if choice.lower() in moves:
                 return choice.lower()
 """The ReflectPlayer subclass copies its opponents last move"""
 class ReflectPlayer(Player):
@@ -70,31 +71,32 @@ class Game:
     def play_round(self):
         move1 = self.p1.move()
         move2 = self.p2.move()
-        print(f"Player 1: {move1}  Player 2: {move2}")
+        print(f"Player 1: {move1}  Player 2: {move2}\n")
         if move1 == move2:
-            print("Tie!")
+            print("Tie!\n")
         else:
             if beats(move1, move2):
-                print("Player 1 wins!")
+                print("Player 1 wins!\n")
                 self.p1_score += 1
             else:
-                print("Player 2 wins!")
+                print("Player 2 wins!\n")
                 self.p2_score += 1
-        print(f"Player 1: {self.p1_score} Player 2: {self.p2_score}")
+        print(f"Player 1: {self.p1_score} Player 2: {self.p2_score}\n")
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
 
     def play_game(self):
-        print("Game start!")
+        print("Game start!\n")
         for round in range(5):
+            print("*********")
             print(f"Round {round}:")
+            print("*********\n")
             self.play_round()
         if self.p1_score > self.p2_score:
-            print("You Win!")
+            print("You Win!\n")
             return True
         else:
-            print("You Lose!")
-            print("Game Over!")
+            print("You Lose!\n\nGame Over!\n")
             return False
 
 
@@ -107,13 +109,15 @@ if __name__ == '__main__':
     of opponents as opposed to a static, so I can more easily add or remove players
     in the future"""
     while rank < ranks:
+        print("\n---------------")
         print(f"Current opponent : {rank}")
+        print("-----------------\n")
         game = Game(human, opponents[rank])
         status = game.play_game()
         if  status:
             rank += 1
             if rank == ranks :
-                print("You win it all!")
+                print("You win it all!\n")
         else:
             rank = ranks
     print("That's all folks!")
