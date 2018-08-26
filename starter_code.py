@@ -5,7 +5,6 @@ and reports both Player's scores each round."""
 
 import random
 
-
 moves = ['rock', 'paper', 'scissors']
 
 """The Player class is the parent class for all of the Players
@@ -25,6 +24,13 @@ class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
 
+"""The HumanPlayer subclass allows users to chose their own moves"""
+class HumanPlayer(Player):
+    def move(self):
+        while True:
+            choice = input("Rock, Paper, or Scissors?")
+            if choice.lower() in ['rock', 'paper', 'scissors']:
+                return choice.lower()
 
 def beats(one, two):
     return ((one == 'rock' and two == 'scissors') or
@@ -65,5 +71,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(RandomPlayer(), Player())
+    game = Game(HumanPlayer(), Player())
     game.play_game()
