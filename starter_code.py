@@ -89,9 +89,32 @@ class Game:
         for round in range(5):
             print(f"Round {round}:")
             self.play_round()
-        print("Game over!")
+        if self.p1_score > self.p2_score:
+            print("You Win!")
+            return True
+        else:
+            print("You Lose!")
+            print("Game Over!")
+            return False
 
 
 if __name__ == '__main__':
-    game = Game(HumanPlayer(), CyclePlayer())
-    game.play_game()
+    opponents = [Player(), RandomPlayer(), CyclePlayer(), ReflectPlayer()]
+    human = HumanPlayer()
+    rank = 0
+    ranks = len(opponents)
+    """Cycles through opponents until user loses or beats them. Uses the length
+    of opponents as opposed to a static, so I can more easily add or remove players
+    in the future"""
+    while rank < ranks:
+        print(f"Current opponent : {rank}")
+        game = Game(human, opponents[rank])
+        status = game.play_game()
+        if  status:
+            rank += 1
+            if rank == ranks :
+                print("You win it all!")
+        else:
+            rank = ranks
+    print("That's all folks!")
+            
