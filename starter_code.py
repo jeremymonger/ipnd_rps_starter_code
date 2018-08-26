@@ -99,26 +99,30 @@ class Game:
             print("You Lose!\n\nGame Over!\n")
             return False
 
-
+class Tournament():
+    def __init__(self, opponents): 
+        self.opponents = opponents
+        self.human = HumanPlayer()
+        self.rank = 0
+        self.ranks = len(self.opponents)
+        
+    """Cycles through opponents until user loses or beats them. """
+    def run_tournament(self):
+        while self.rank < self.ranks:
+            print("\n---------------")
+            print(f"Current opponent : {self.rank}")
+            print("-----------------\n")
+            self.game = Game(self.human, self.opponents[self.rank])
+            self.status = self.game.play_game()
+            if self.status:
+                self.rank += 1
+                if self.rank == self.ranks :
+                    print("You Win it All!\n")
+            else:
+                self.rank = self.ranks
+        print("That's all folks!")
+    
 if __name__ == '__main__':
-    opponents = [Player(), RandomPlayer(), CyclePlayer(), ReflectPlayer()]
-    human = HumanPlayer()
-    rank = 0
-    ranks = len(opponents)
-    """Cycles through opponents until user loses or beats them. Uses the length
-    of opponents as opposed to a static, so I can more easily add or remove players
-    in the future"""
-    while rank < ranks:
-        print("\n---------------")
-        print(f"Current opponent : {rank}")
-        print("-----------------\n")
-        game = Game(human, opponents[rank])
-        status = game.play_game()
-        if  status:
-            rank += 1
-            if rank == ranks :
-                print("You win it all!\n")
-        else:
-            rank = ranks
-    print("That's all folks!")
+    tournament = Tournament([Player(),CyclePlayer(),ReflectPlayer(),RandomPlayer()])
+    tournament.run_tournament()
             
